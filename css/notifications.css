@@ -1,0 +1,277 @@
+/**
+ * ComicVerse Hub - Notification System Styles
+ * 
+ * Custom styles for alert, confirm, and toast notifications
+ */
+
+/* Notification Modal Overlay */
+.notification-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+}
+
+.notification-overlay.active {
+    display: flex;
+    opacity: 1;
+    animation: fadeIn var(--transition-speed) ease;
+}
+
+/* Notification Modal */
+.notification-modal {
+    background: linear-gradient(135deg, var(--color-dark-gray), var(--color-medium-gray));
+    border-radius: var(--border-radius);
+    border: 3px solid var(--color-primary);
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(255, 0, 0, 0.5);
+    transform: scale(0.9);
+    transition: transform var(--transition-speed) ease;
+    animation: slideInRight 0.3s ease;
+    overflow: hidden;
+}
+
+.notification-overlay.active .notification-modal {
+    transform: scale(1);
+}
+
+/* Notification Header */
+.notification-header {
+    background: linear-gradient(135deg, var(--color-medium-gray), var(--color-dark-gray));
+    padding: var(--spacing-md);
+    border-bottom: 2px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-title {
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.notification-close {
+    background: transparent;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-speed) ease;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.notification-close:hover {
+    background: var(--color-primary);
+    color: var(--color-text);
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* Notification Body */
+.notification-body {
+    padding: var(--spacing-lg);
+}
+
+.notification-message {
+    color: var(--color-text);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0;
+    text-align: center;
+}
+
+/* Notification Footer */
+.notification-footer {
+    padding: var(--spacing-md);
+    border-top: 2px solid var(--color-border);
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: flex-end;
+    background: var(--color-dark-gray);
+}
+
+.notification-btn-ok,
+.notification-btn-confirm,
+.notification-btn-cancel {
+    min-width: 100px;
+    padding: var(--spacing-sm) var(--spacing-lg);
+}
+
+/* Notification Types */
+.notification-success {
+    border-color: #00cc00;
+}
+
+.notification-success .notification-title {
+    color: #00cc00;
+}
+
+.notification-success .notification-close {
+    border-color: #00cc00;
+    color: #00cc00;
+}
+
+.notification-success .notification-close:hover {
+    background: #00cc00;
+}
+
+.notification-error {
+    border-color: var(--color-primary);
+}
+
+.notification-warning {
+    border-color: var(--color-accent);
+}
+
+.notification-warning .notification-title {
+    color: var(--color-accent);
+}
+
+.notification-warning .notification-close {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.notification-warning .notification-close:hover {
+    background: var(--color-accent);
+    color: var(--color-dark);
+}
+
+.notification-info {
+    border-color: var(--color-secondary);
+}
+
+.notification-info .notification-title {
+    color: var(--color-secondary);
+}
+
+.notification-info .notification-close {
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+}
+
+.notification-info .notification-close:hover {
+    background: var(--color-secondary);
+}
+
+/* Toast Notifications */
+.toast {
+    position: fixed;
+    bottom: var(--spacing-lg);
+    right: var(--spacing-lg);
+    background: linear-gradient(135deg, var(--color-dark-gray), var(--color-medium-gray));
+    color: var(--color-text);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--border-radius);
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    z-index: 10001;
+    min-width: 300px;
+    max-width: 400px;
+    transform: translateX(400px);
+    opacity: 0;
+    transition: all var(--transition-speed) ease;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast-success {
+    border-color: #00cc00;
+    background: linear-gradient(135deg, rgba(0, 204, 0, 0.2), var(--color-dark-gray));
+}
+
+.toast-error {
+    border-color: var(--color-primary);
+    background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), var(--color-dark-gray));
+}
+
+.toast-warning {
+    border-color: var(--color-accent);
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), var(--color-dark-gray));
+}
+
+.toast-info {
+    border-color: var(--color-secondary);
+    background: linear-gradient(135deg, rgba(0, 102, 255, 0.2), var(--color-dark-gray));
+}
+
+.toast::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.toast-success::before {
+    background: #00cc00;
+    box-shadow: 0 0 10px rgba(0, 204, 0, 0.6);
+}
+
+.toast-error::before {
+    background: var(--color-primary);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+}
+
+.toast-warning::before {
+    background: var(--color-accent);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.toast-info::before {
+    background: var(--color-secondary);
+    box-shadow: 0 0 10px rgba(0, 102, 255, 0.6);
+}
+
+@media (max-width: 768px) {
+    .notification-modal {
+        max-width: 90%;
+        margin: var(--spacing-md);
+    }
+    
+    .notification-footer {
+        flex-direction: column;
+    }
+    
+    .notification-btn-ok,
+    .notification-btn-confirm,
+    .notification-btn-cancel {
+        width: 100%;
+    }
+    
+    .toast {
+        right: var(--spacing-sm);
+        left: var(--spacing-sm);
+        min-width: auto;
+        max-width: none;
+    }
+}
+

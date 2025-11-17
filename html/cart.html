@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Shopping Cart - ComicVerse Hub">
+    <title>Shopping Cart | ComicVerse Hub</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/notifications.css">
+    <style>
+        /* Cart Page Specific Styles */
+        .cart-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .cart-header h1 {
+            color: var(--color-primary);
+        }
+        
+        .clear-cart-btn {
+            background-color: var(--color-medium-gray);
+            color: var(--color-text);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .clear-cart-btn:hover {
+            background-color: var(--color-light-gray);
+            border-color: var(--color-primary);
+        }
+        
+        .cart-items {
+            background-color: var(--color-dark-gray);
+            border-radius: var(--border-radius);
+            border: 2px solid var(--color-border);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .cart-item {
+            display: grid;
+            grid-template-columns: 120px 1fr auto auto;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            border-bottom: 2px solid var(--color-border);
+            align-items: center;
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .cart-item-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            background-color: var(--color-medium-gray);
+        }
+        
+        .cart-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+        
+        .cart-item-title {
+            font-size: 1.2rem;
+            color: var(--color-text);
+            font-weight: bold;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .cart-item-price {
+            color: var(--color-accent);
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .quantity-btn {
+            background-color: var(--color-medium-gray);
+            color: var(--color-text);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius);
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all var(--transition-speed) ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quantity-btn:hover {
+            background-color: var(--color-light-gray);
+            border-color: var(--color-primary);
+        }
+        
+        .quantity-input {
+            width: 60px;
+            padding: var(--spacing-xs);
+            background-color: var(--color-dark-gray);
+            color: var(--color-text);
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            text-align: center;
+        }
+        
+        .cart-item-total {
+            font-size: 1.3rem;
+            color: var(--color-accent);
+            font-weight: bold;
+            min-width: 100px;
+            text-align: right;
+        }
+        
+        .cart-item-remove {
+            background-color: transparent;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .cart-item-remove:hover {
+            background-color: var(--color-primary);
+            color: var(--color-text);
+        }
+        
+        .cart-summary {
+            background-color: var(--color-dark-gray);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            border: 2px solid var(--color-primary);
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-md);
+            font-size: 1.1rem;
+        }
+        
+        .summary-row:last-child {
+            margin-bottom: 0;
+            padding-top: var(--spacing-md);
+            border-top: 2px solid var(--color-border);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .summary-label {
+            color: var(--color-text-muted);
+        }
+        
+        .summary-value {
+            color: var(--color-text);
+        }
+        
+        .summary-total {
+            color: var(--color-accent);
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-md);
+            font-size: 1.2rem;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: var(--spacing-xxl);
+            color: var(--color-text-muted);
+        }
+        
+        .empty-cart h2 {
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .empty-cart p {
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        @media (max-width: 768px) {
+            .cart-item {
+                grid-template-columns: 80px 1fr;
+                gap: var(--spacing-sm);
+            }
+            
+            .cart-item-image {
+                grid-row: 1 / 3;
+                height: 120px;
+            }
+            
+            .cart-item-quantity {
+                grid-column: 2;
+            }
+            
+            .cart-item-total {
+                grid-column: 2;
+                text-align: left;
+            }
+            
+            .cart-item-remove {
+                grid-column: 1 / -1;
+                justify-self: start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">COMICVERSE HUB</a>
+            <nav class="nav" id="main-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="browse.html" class="nav-link">Browse</a>
+                <a href="favorites.html" class="nav-link cart-link">
+                    Wishlist
+                    <span class="cart-badge" id="wishlist-badge">0</span>
+                </a>
+                <a href="cart.html" class="nav-link active cart-link">
+                    Cart
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </a>
+            </nav>
+            <label class="switch">
+                <input type="checkbox" id="theme-checkbox" />
+                <span class="slider">
+                    <div class="star star_1"></div>
+                    <div class="star star_2"></div>
+                    <div class="star star_3"></div>
+                    <svg viewBox="0 0 16 16" class="cloud_1 cloud">
+                        <path
+                            transform="matrix(.77976 0 0 .78395-299.99-418.63)"
+                            fill="#fff"
+                            d="m391.84 540.91c-.421-.329-.949-.524-1.523-.524-1.351 0-2.451 1.084-2.485 2.435-1.395.526-2.388 1.88-2.388 3.466 0 1.874 1.385 3.423 3.182 3.667v.034h12.73v-.006c1.775-.104 3.182-1.584 3.182-3.395 0-1.747-1.309-3.186-2.994-3.379.007-.106.011-.214.011-.322 0-2.707-2.271-4.901-5.072-4.901-2.073 0-3.856 1.202-4.643 2.925"
+                        ></path>
+                    </svg>
+                </span>
+            </label>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">☰</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="cart-container">
+                <div class="cart-header">
+                    <h1>Shopping Cart</h1>
+                    <button class="clear-cart-btn" id="clear-cart-btn">Clear Cart</button>
+                </div>
+                
+                <!-- Cart Items -->
+                <div id="cart-items-container">
+                    <!-- Cart items will be dynamically inserted here -->
+                </div>
+                
+                <!-- Cart Summary -->
+                <div id="cart-summary-container">
+                    <!-- Cart summary will be dynamically inserted here -->
+                </div>
+                
+                <!-- Empty Cart Message -->
+                <div id="empty-cart-message" class="empty-cart" style="display: none;">
+                    <h2>Your Cart is Empty</h2>
+                    <p>Start adding comics to your cart to see them here!</p>
+                    <a href="browse.html" class="btn btn-primary">Browse Comics</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About ComicVerse Hub</h3>
+                <p>Your ultimate destination for the best comic books from all major publishers. Discover new stories, revisit classics, and build your collection.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="browse.html">Browse All Comics</a>
+                <a href="cart.html">Shopping Cart</a>
+            </div>
+            <div class="footer-section">
+                <h3>Publishers</h3>
+                <a href="browse.html?publisher=Marvel">Marvel Comics</a>
+                <a href="browse.html?publisher=DC">DC Comics</a>
+                <a href="browse.html?publisher=Image">Image Comics</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: info@comicversehub.com</p>
+                <p>Phone: (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ComicVerse Hub. All rights reserved.  </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="../js/comics.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/cart.js"></script>
+</body>
+</html>
+

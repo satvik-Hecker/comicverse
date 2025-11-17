@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ComicVerse Hub - Your ultimate destination for comic books from Marvel, DC, Image Comics and more!">
+    <title>ComicVerse Hub - Home | Dynamic Online Comic Store</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/notifications.css">
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">COMICVERSE HUB</a>
+            <nav class="nav" id="main-nav">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="browse.html" class="nav-link">Browse</a>
+                <a href="favorites.html" class="nav-link cart-link">
+                    Wishlist
+                    <span class="cart-badge" id="wishlist-badge">0</span>
+                </a>
+                <a href="cart.html" class="nav-link cart-link">
+                    Cart
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </a>
+            </nav>
+            <label class="switch">
+                <input type="checkbox" id="theme-checkbox" />
+                <span class="slider">
+                    <div class="star star_1"></div>
+                    <div class="star star_2"></div>
+                    <div class="star star_3"></div>
+                    <svg viewBox="0 0 16 16" class="cloud_1 cloud">
+                        <path
+                            transform="matrix(.77976 0 0 .78395-299.99-418.63)"
+                            fill="#fff"
+                            d="m391.84 540.91c-.421-.329-.949-.524-1.523-.524-1.351 0-2.451 1.084-2.485 2.435-1.395.526-2.388 1.88-2.388 3.466 0 1.874 1.385 3.423 3.182 3.667v.034h12.73v-.006c1.775-.104 3.182-1.584 3.182-3.395 0-1.747-1.309-3.186-2.994-3.379.007-.106.011-.214.011-.322 0-2.707-2.271-4.901-5.072-4.901-2.073 0-3.856 1.202-4.643 2.925"
+                        ></path>
+                    </svg>
+                </span>
+            </label>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">☰</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Carousel Section -->
+        <section class="hero-carousel" id="hero-carousel">
+            <div class="carousel-container" id="carousel-container">
+                <!-- Carousel slides will be dynamically inserted here -->
+            </div>
+            
+            <!-- Carousel Controls -->
+            <button class="carousel-controls carousel-prev" id="carousel-prev" aria-label="Previous slide">‹</button>
+            <button class="carousel-controls carousel-next" id="carousel-next" aria-label="Next slide">›</button>
+            
+            <!-- Carousel Indicators -->
+            <div class="carousel-indicators" id="carousel-indicators">
+                <!-- Indicators will be dynamically inserted here -->
+            </div>
+        </section>
+
+        <!-- Shop from Wide Range Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Shop from our Wide Range of Products</h2>
+                <div class="product-categories-grid" id="product-categories-grid">
+                    <!-- Product categories will be dynamically inserted here -->
+                    <div style="text-align: center; margin: var(--spacing-lg) 0;">
+                        <img src="../images/Marvel-Comics.png" alt="Marvel Comics" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+                    </div>
+                    <div style="text-align: center; margin: var(--spacing-lg) 0;">
+                        <img src="../images/DC-Comics.png" alt="Marvel Comics" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+                    </div>
+                    <div style="text-align: center; margin: var(--spacing-lg) 0;">
+                        <img src="../images/Mangas-2.png" alt="Marvel Comics" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+                    </div>
+                    <div style="text-align: center; margin: var(--spacing-lg) 0;">
+                        <img src="../images/Posters-2.png" alt="Marvel Comics" style="max-width: 100%; height: auto; display: block; margin: 0 auto;">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Releases Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">New Releases</h2>
+                <div class="comic-grid" id="new-releases-grid">
+                    <!-- New releases will be dynamically inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Series Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Popular Series</h2>
+                <div class="comic-grid" id="popular-series-grid">
+                    <!-- Popular series will be dynamically inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Publisher Spotlights Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Publisher Spotlights</h2>
+                
+                <!-- Marvel Spotlight -->
+                <div class="publisher-spotlight" id="marvel-spotlight">
+                    <h3 style="color: var(--color-primary); margin-bottom: var(--spacing-md);">Marvel Comics</h3>
+                    <div class="comic-grid" id="marvel-grid">
+                        <!-- Marvel comics will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <!-- DC Spotlight -->
+                <div class="publisher-spotlight" style="margin-top: var(--spacing-xl);" id="dc-spotlight">
+                    <h3 style="color: var(--color-secondary); margin-bottom: var(--spacing-md);">DC Comics</h3>
+                    <div class="comic-grid" id="dc-grid">
+                        <!-- DC comics will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <!-- Image Comics Spotlight -->
+                <div class="publisher-spotlight" style="margin-top: var(--spacing-xl);" id="image-spotlight">
+                    <h3 style="color: var(--color-accent); margin-bottom: var(--spacing-md);">Image Comics</h3>
+                    <div class="comic-grid" id="image-grid">
+                        <!-- Image comics will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About ComicVerse Hub</h3>
+                <p>Your ultimate destination for the best comic books from all major publishers. Discover new stories, revisit classics, and build your collection.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="browse.html">Browse All Comics</a>
+                <a href="cart.html">Shopping Cart</a>
+            </div>
+            <div class="footer-section">
+                <h3>Publishers</h3>
+                <a href="browse.html?publisher=Marvel">Marvel Comics</a>
+                <a href="browse.html?publisher=DC">DC Comics</a>
+                <a href="browse.html?publisher=Image">Image Comics</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: info@comicversehub.com</p>
+                <p>Phone: (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ComicVerse Hub. All rights reserved.  </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="../js/comics.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/home.js"></script>
+</body>
+</html>
+

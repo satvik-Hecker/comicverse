@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View detailed information about comic books at ComicVerse Hub">
+    <title>Comic Details | ComicVerse Hub</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/notifications.css">
+    <style>
+        /* Comic Detail Page Specific Styles */
+        .comic-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .comic-cover-section {
+            position: sticky;
+            top: calc(var(--header-height) + var(--spacing-lg));
+        }
+        
+        .comic-cover-wrapper {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            border: 3px solid var(--color-primary);
+            transition: transform var(--transition-speed) ease;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+        
+        .comic-cover-wrapper:hover {
+            transform: scale(1.05);
+        }
+        
+        .comic-cover-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            background-color: var(--color-medium-gray);
+        }
+        
+        .comic-info-section {
+            background-color: var(--color-dark-gray);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            border: 2px solid var(--color-border);
+            max-width: 500px;
+        }
+        
+        .comic-title {
+            color: var(--color-primary);
+            font-size: 2rem;
+            margin-bottom: var(--spacing-sm);
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+        
+        .comic-subtitle {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-md);
+            font-style: italic;
+        }
+        
+        .comic-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 2px solid var(--color-border);
+        }
+        
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .meta-label {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .meta-value {
+            font-size: 1.1rem;
+            color: var(--color-text);
+            font-weight: bold;
+        }
+        
+        .comic-price-large {
+            font-size: 1.8rem;
+            color: var(--color-accent);
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .price-section {
+            background: linear-gradient(135deg, var(--color-medium-gray), var(--color-dark-gray));
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+            border: 2px solid var(--color-accent);
+        }
+        
+        .comic-synopsis {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .comic-synopsis h3 {
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.2rem;
+        }
+        
+        .comic-synopsis p {
+            line-height: 1.8;
+            font-size: 0.95rem;
+            text-align: justify;
+        }
+        
+        .detail-section {
+            margin-bottom: var(--spacing-md);
+            padding: var(--spacing-sm);
+            background-color: var(--color-medium-gray);
+            border-radius: var(--border-radius);
+            border-left: 3px solid var(--color-primary);
+        }
+        
+        .detail-section h3 {
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-xs);
+            font-size: 1.1rem;
+        }
+        
+        .detail-section p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .comic-creators {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .comic-creators h3 {
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.1rem;
+        }
+        
+        .creator-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+        
+        .creator-item {
+            background-color: var(--color-medium-gray);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .creator-role {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+        }
+        
+        .creator-name {
+            font-size: 0.9rem;
+            color: var(--color-text);
+            font-weight: bold;
+        }
+        
+        .comic-characters {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .comic-characters h3 {
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.1rem;
+        }
+        
+        .character-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+        }
+        
+        .character-tag {
+            background-color: var(--color-secondary);
+            color: var(--color-text);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        
+        .wishlist-section {
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+        }
+        
+        .wishlist-btn-detail {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: transparent;
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all var(--transition-speed) ease;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            font-size: 0.9rem;
+        }
+        
+        .wishlist-btn-detail:hover {
+            background: var(--color-primary);
+            color: var(--color-text);
+            transform: translateY(-2px);
+        }
+        
+        .wishlist-btn-detail.active {
+            background: var(--color-primary);
+            color: var(--color-text);
+        }
+        
+        .additional-info {
+            margin-top: var(--spacing-md);
+            padding-top: var(--spacing-md);
+            border-top: 2px solid var(--color-border);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            padding: var(--spacing-xs);
+            background-color: var(--color-medium-gray);
+            border-radius: var(--border-radius);
+        }
+        
+        .info-label {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .info-value {
+            font-size: 0.9rem;
+            color: var(--color-text);
+            font-weight: bold;
+        }
+        
+        .add-to-cart-section {
+            background: linear-gradient(135deg, var(--color-medium-gray), var(--color-dark-gray));
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            border: 2px solid var(--color-primary);
+            margin-top: var(--spacing-md);
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            padding: var(--spacing-sm);
+            background: var(--color-dark-gray);
+            border-radius: var(--border-radius);
+            border: 2px solid var(--color-border);
+        }
+        
+        .quantity-selector label {
+            color: var(--color-text);
+            font-weight: bold;
+            font-size: 0.95rem;
+            min-width: 80px;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            background: var(--color-medium-gray);
+            border-radius: var(--border-radius);
+            border: 2px solid var(--color-primary);
+            overflow: hidden;
+        }
+        
+        .quantity-btn {
+            background: var(--color-medium-gray);
+            color: var(--color-text);
+            border: none;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all var(--transition-speed) ease;
+            user-select: none;
+        }
+        
+        .quantity-btn:hover {
+            background: var(--color-dark-gray);
+            transform: scale(1.1);
+        }
+        
+        .quantity-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .quantity-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .quantity-input {
+            width: 70px;
+            height: 40px;
+            padding: 0;
+            background-color: var(--color-dark-gray);
+            color: var(--color-text);
+            border: none;
+            border-left: 2px solid var(--color-primary);
+            border-right: 2px solid var(--color-primary);
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: center;
+            -moz-appearance: textfield;
+        }
+        
+        .quantity-input::-webkit-outer-spin-button,
+        .quantity-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        .quantity-input:focus {
+            outline: none;
+            background-color: var(--color-medium-gray);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+        }
+        
+        .quantity-input:invalid {
+            border-color: var(--color-primary);
+            animation: pulse 0.5s ease;
+        }
+        
+        .quantity-info {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            margin-top: var(--spacing-xs);
+            text-align: center;
+        }
+        
+        .add-to-cart-btn {
+            width: 100%;
+            padding: var(--spacing-sm);
+            font-size: 1rem;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-secondary);
+            font-weight: bold;
+            transition: color var(--transition-speed) ease;
+        }
+        
+        .back-link:hover {
+            color: var(--color-accent);
+        }
+        
+        .error-message {
+            text-align: center;
+            padding: var(--spacing-xxl);
+            color: var(--color-text-muted);
+        }
+        
+        .error-message h2 {
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        @media (max-width: 968px) {
+            .comic-detail-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .comic-cover-section {
+                position: static;
+            }
+            
+            .comic-info-section {
+                max-width: 100%;
+            }
+            
+            .comic-title {
+                font-size: 1.8rem;
+            }
+            
+            .comic-meta {
+                grid-template-columns: 1fr;
+            }
+            
+            .quantity-selector {
+                flex-direction: column;
+                align-items: stretch;
+                gap: var(--spacing-sm);
+            }
+            
+            .quantity-selector label {
+                min-width: auto;
+                text-align: center;
+            }
+            
+            .quantity-controls {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">COMICVERSE HUB</a>
+            <nav class="nav" id="main-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="browse.html" class="nav-link">Browse</a>
+                <a href="favorites.html" class="nav-link cart-link">
+                    Wishlist
+                    <span class="cart-badge" id="wishlist-badge">0</span>
+                </a>
+                <a href="cart.html" class="nav-link cart-link">
+                    Cart
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </a>
+            </nav>
+            <label class="switch">
+                <input type="checkbox" id="theme-checkbox" />
+                <span class="slider">
+                    <div class="star star_1"></div>
+                    <div class="star star_2"></div>
+                    <div class="star star_3"></div>
+                    <svg viewBox="0 0 16 16" class="cloud_1 cloud">
+                        <path
+                            transform="matrix(.77976 0 0 .78395-299.99-418.63)"
+                            fill="#fff"
+                            d="m391.84 540.91c-.421-.329-.949-.524-1.523-.524-1.351 0-2.451 1.084-2.485 2.435-1.395.526-2.388 1.88-2.388 3.466 0 1.874 1.385 3.423 3.182 3.667v.034h12.73v-.006c1.775-.104 3.182-1.584 3.182-3.395 0-1.747-1.309-3.186-2.994-3.379.007-.106.011-.214.011-.322 0-2.707-2.271-4.901-5.072-4.901-2.073 0-3.856 1.202-4.643 2.925"
+                        ></path>
+                    </svg>
+                </span>
+            </label>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">☰</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <a href="browse.html" class="back-link">← Back to Browse</a>
+            
+            <!-- Comic Detail Content -->
+            <div id="comic-detail-content">
+                <!-- Content will be dynamically loaded here -->
+            </div>
+            
+            <!-- Error Message (shown if comic not found) -->
+            <div id="error-message" class="error-message" style="display: none;">
+                <h2>Comic Not Found</h2>
+                <p>The comic you're looking for doesn't exist.</p>
+                <a href="browse.html" class="btn btn-primary" style="margin-top: var(--spacing-md);">Browse All Comics</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About ComicVerse Hub</h3>
+                <p>Your ultimate destination for the best comic books from all major publishers. Discover new stories, revisit classics, and build your collection.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="browse.html">Browse All Comics</a>
+                <a href="cart.html">Shopping Cart</a>
+            </div>
+            <div class="footer-section">
+                <h3>Publishers</h3>
+                <a href="browse.html?publisher=Marvel">Marvel Comics</a>
+                <a href="browse.html?publisher=DC">DC Comics</a>
+                <a href="browse.html?publisher=Image">Image Comics</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: info@comicversehub.com</p>
+                <p>Phone: (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ComicVerse Hub. All rights reserved.  </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="../js/comics.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/detail.js"></script>
+</body>
+</html>
+
